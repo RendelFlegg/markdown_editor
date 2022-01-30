@@ -1,9 +1,5 @@
-formatters = ['plain', 'bold', 'italic', 'header', 'link', 'inline-code', 'new-line']
+formatters = ['plain', 'bold', 'italic', 'header', 'ordered-list', 'unordered-list', 'link', 'inline-code', 'new-line']
 commands = ['!help', '!done']
-
-
-def plain():
-    pass
 
 
 def bold(text):
@@ -26,8 +22,15 @@ def inline_code(text):
     return f'`{text}`'
 
 
-# def new_line(text):
-#     return f'{text}\n'
+def formatted_list(number_of_rows, ordered=False):
+    rows = []
+    point = '*'
+    for n in range(1, number_of_rows + 1):
+        row = input(f'Row #{n}: ')
+        if ordered:
+            point = f'{n}.'
+        rows.append(f'{point} {row}\n')
+    return rows
 
 
 def choose_formatter(formatter):
@@ -53,6 +56,17 @@ def choose_formatter(formatter):
         text_list.append(inline_code(input('Text: ')))
     elif formatter == 'new-line':
         text_list.append('\n')
+    elif formatter in ['ordered-list', 'unordered-list']:
+        while True:
+            try:
+                number_of_rows = int(input('Number of rows: '))
+                assert number_of_rows > 0
+            except (ValueError, AssertionError):
+                print('The number of rows should be greater than zero')
+            else:
+                for row in formatted_list(number_of_rows, ordered=True if formatter == 'ordered-list' else False):
+                    text_list.append(row)
+                break
 
 
 text_list = []
