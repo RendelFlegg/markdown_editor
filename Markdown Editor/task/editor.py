@@ -79,6 +79,8 @@ while True:
             print(f'Available formatters: {" ".join(formatters)}')
             print(f"Special commands: {' '.join(commands)}")
         elif answer == '!done':
+            with open('output.md', 'w') as output_file:
+                output_file.write(''.join(text_list))
             break
     else:
         choose_formatter(answer)
